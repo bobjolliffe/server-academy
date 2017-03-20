@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+
+<link rel="stylesheet" href="github-markdown.css">
+<style>
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 80%;
+        margin: 0 auto;
+        padding: 45px;
+    }
+</style>
+</head>
+<body class="markdown-body">>
+<nav id="TOC">
+<ul>
+<li><a href="#kigali-server-academy">Kigali server academy</a><ul>
+<li><a href="#exercises-day-1">Exercises Day 1</a><ul>
+<li><a href="#operating-system">Operating System</a></li>
+<li><a href="#ssh">SSH</a></li>
+</ul></li>
+<li><a href="#automating-the-installation">Automating the installation</a></li>
+<li><a href="#installing-dhis2-tools">Installing DHIS2 tools</a><ul>
+<li><a href="#using-the-package-exercises">Using the package (exercises)</a></li>
+<li><a href="#discussion-of-improvements">Discussion of improvements</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="kigali-server-academy">Kigali server academy</h1>
+<h2 id="exercises-day-1">Exercises Day 1</h2>
+<p>The following exercises are designed for participants to acquire particular skills and tips for installing ubuntu servers and installing dhis2.</p>
+<h3 id="operating-system">Operating System</h3>
+<h4 id="install-ubuntu-16.04-on-linode">Install ubuntu 16.04 on linode</h4>
+<p>This exercise involves building a system on the linode. We will run through the process interactively (step by step), but in a production setting this is not the preferred method. Nowadays it is more common to provision servers dynamically on the fly. We will go through manually first and later in the day discuss how to automate the process.</p>
+<p>You need to go to the linode control panel, and login with your credentials. Select your linode and create a new configuration using ubuntu 16.04 64 bit edition. A useful guide for getting started is available <a href="https://www.linode.com/docs/getting-started#provisioning-your-linode">here</a>.</p>
+<p>After installation is complete, you can boot the server and get access to its running console. You can do this by going to the &quot;Remote Access&quot; tab of the linode control panel and clicking on &quot;Launch Lish Console&quot; at the bottom of the page.</p>
+<p><img src="lish.png" /></p>
+<p>Lish is in some ways equivalent to sitting in front of a physical machine. Later you will access the server via ssh, but having the ability to access directly via lish is an important fallback in case you are somehow locked out of access via ssh.</p>
+<blockquote>
+<p>Note: lish is a utility specific to linode. Other hosting<br />
+providers will have different ways to accomplish the same thing.</p>
+</blockquote>
+<p>As a precaution while we are feeling our way around the system it is a good idea to prevent outside network access. At least until we have secured things a bit better. Newborn servers are often the most vulnerable as they have not yet been properly patched and configured. A common mistake is that when someone acquires a new machine they power it up, connected to the internet, and then leave it running with the intention of coming back to configure later. If you are not going to deal with it immediately switch it off. Hackers are constantly probing for running machines and will chance upon your surprisingly quickly.</p>
+<p>A simple way to keep us a bit safer is to enable a simple firewall. Ubuntu server comes by default with <code>ufw</code> (uncomplicated firewall). We will be discussing firewalls in more detail later, but for now just type:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ufw</span> enable</code></pre></div>
+<p>Without any other firewall rules applied, this will simply block <strong>all</strong> network traffic to the server which is a good safety precaution.</p>
+<p>So for the moment <code>lish</code> is the only way in.</p>
+<h4 id="configure-a-user-to-administer-the-system">Configure a user to administer the system</h4>
+<p>When the system is initially installed it has a <code>root</code> user by default. The convention on ubuntu systems is never to login as root, but rather configure a human user and grant that person privileges to perform operations as root. There (at least) two good reasons for this:</p>
+<ol>
+<li>It makes it slightly harder to make a silly mistake</li>
+<li>It provides a proper audit trail of who has logged in and when<br />
+(for this reason it is preferable that the user account is linked to a human being rather than something generic like <code>dhis</code>).</li>
+</ol>
+<p>The commands to create a new user and give her permission to execute commands as root are:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">adduser</span> bobj
+<span class="kw">usermod</span> -a -G sudo bobj</code></pre></div>
+<p>The first line creates the user. It is an interactive process. Generally it is a good idea to set the real name of the user, but most of the rest can be ignored.</p>
+<p><code>usermod</code> is used to <strong>modify</strong> the user. The specific modification that is being done here is that the user <code>bobj</code> is being added to a group of users called <code>sudo</code> (more on users and groups later). Users in the <code>sudo</code> group have the permission to execute commands as the <code>root</code> user. So there is no more reason to be able login as <code>root</code>.</p>
+<p>Logout of the system (<code>exit</code>) and log back in as your new user.</p>
+<h4 id="update-the-system-with-latest-package-upgrades">Update the system with latest package upgrades</h4>
+<p>It is important that the operating system is kept up to date with the latest packages. Particularly when there are security related packages.</p>
+<p>This is a two step process. The first is to download the latest list of packages:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> update</code></pre></div>
+<p>When you run this as your user you will get an error message. You need to be the <code>root</code> user in order to update packages on the system. Because your user is in the <code>sudo</code> group, she is able to run commands as root by prefixing <code>sudo</code> to the command:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> apt-get update</code></pre></div>
+<p>Now you will be prompted for your password and the update will begin.</p>
+<p>You can get a full description of what <code>update</code> does by looking at the manual page for the <code>apt-get</code> command. You do this with:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">man</span> apt-get</code></pre></div>
+<blockquote>
+<p>A common mistake with beginners, once they have discovered that <code>sudo</code> allows them to do useful things is that they start to use <code>sudo</code> for <strong>everything</strong>. Try and resist this temptation and only use sudo when you need to. This can help you avoid many difficulties, mistakes and disasters.. Note we didn't need to <code>sudo</code> in order to read the manual.</p>
+</blockquote>
+<p>Now that you have your updated list of packages installed, you can upgrade your base system with the latest software. You will have seen from the manual page that there are different types of upgrade that can be done. In this case, because the server is new, we will use the most aggressive:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> apt-get dist-upgrade</code></pre></div>
+<p>A more cautious approach you might use when the system is in production is to just use <code>apt-get upgrade</code>.</p>
+<blockquote>
+<p>Discussion point: it is an open question whether to configure your system to automatically update itself as new versions of packages are released or to always do this manually. A halfway position (which I recommend) is to ensure that all security related patches are applied automatically. The official ubuntu server docs explain how to set up unattended upgrades <a href="https://help.ubuntu.com/lts/serverguide/automatic-updates.html">here</a>.</p>
+</blockquote>
+<p>As an exercise, setup unattended upgrades for your linode now.</p>
+<h3 id="ssh">SSH</h3>
+<h4 id="securing-the-ssh-daemon-server">Securing the ssh daemon (server)</h4>
+<p>The primary way in which administrators interact with the backend system on a linux server is using ssh (secure shell). A linux server usually has an ssh server program installed on it (sshd).</p>
+<p>Linux (and other unix derivatives) make use of openssh, which is usually included as part of the base install. Openssh is the most widely used implementation of openssh which means it is generally quite secure. When vulnerabilities are discovered they are typically patched quickly.</p>
+<p>There are a number of ways to improve your default ssh configuration. Typically you might:</p>
+<ol>
+<li>Disable root login via ssh.</li>
+<li>Disable password based login, and require the use of ssh keys.</li>
+<li>Change the listenng port that ssh listens on from 22 to something else (preferably below 1024 .. discussion?)</li>
+</ol>
+<p>You should definitely do the first option in this list (after we have configured ssh keys we will also do the second). It involves editing a file called <code>/etc/ssh/sshd_config</code> and changing the line which contains &quot;PermitRootLogin&quot; to <strong>no</strong>. There are a number of linux text editors available. Experienced admins tend to use <code>vi</code>, but beginning users might prefer to use <code>nano</code>. Go ahead and edit the file with:</p>
+<pre class="code"><code>sudo nano /etc/ssh/sshd_config</code></pre>
+<p>After you have disabled root login, you can go back to the firewall and enable access to the ssh port:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> ufw limit ssh/tcp</code></pre></div>
+<p>(discuss ufw limit)<br />
+At this point, if you have an ssh client, you should be able to access your linode using ssh, using its IP address or its fully qualified domain name (FQDN - more on this later).</p>
+<h4 id="installing-an-ssh-client-on-your-workstation-if-necessary">Installing an ssh client on your workstation (if necessary)</h4>
+<p>Windows users will typically have to install additional software in order to be able to connect. There are three options which we can recommend (probably there are more).</p>
+<ol>
+<li><em>Putty</em>: Putty is probably the best known ssh client for windows. There are many guides with Information for setting up putty, for example <a href="https://www.linode.com/docs/networking/ssh/using-putty">here</a>.</li>
+<li><em>Cygwin</em>: Another option (which I prefer) is to install the cygwin tools on your windows machine. This comes with a set of commandline tools (including bash shell and openssh) which allows you to work in a similar manner to a linux machine.</li>
+<li><em>Windows 10 linux subsystem</em>: This is a very recent option you can take advantage of if you are running an up to date version of Windows 10. Its a bit tricky to setup, but it seems to work well enough. It results from a collaboration between Canonical and Microsoft which aims to run linux applications &quot;<em>natively</em>&quot; on windows. More information to setup <a href="https://msdn.microsoft.com/en-us/commandline/wsl/install_guide">here</a>.</li>
+</ol>
+<h4 id="ssh-with-public-keys">ssh with public keys</h4>
+<p>This exercise involves setting an ssh key pair, and copying the public part of the pair to the linux server. This allows logging in without using a password. This is the preferred method.</p>
+<p>(Discussion on assymetric vs symetric encryption methods - ssh, ssl/tls, pgp)</p>
+<p>If you do not yet have a keypair and/or do not know how to generate one, sit with someone now who can explain how to do it using your particular environment.</p>
+<h4 id="some-tips-and-tricks-using-ssh">Some tips and tricks using ssh</h4>
+<ol>
+<li>Executng commands over ssh.</li>
+<li>Incorporating ssh into pipelines</li>
+<li>Ssh tunneling (save this one till tomorrow)</li>
+</ol>
+<h2 id="automating-the-installation">Automating the installation</h2>
+<p>The process we have gone through today is long, detailed and prone to error. It is quite likely that we might forget a few steps here and there. There are a number of systems which help with automatic the provisioning of systems. The most well known ones are probably vagrant, ansible, puppet and chef. Automatic provisioning means that deploying a system is much quicker but also (more importantly) it allows you to enforce standards for configuration.</p>
+<p>The simplest form of automation is just to run a bash script which goes through the configuration steps.</p>
+<p>Linode provides a mechanism for organising and parameterizing these scripts, called <strong>StackScripts</strong>.</p>
+<p>Below is a simple example of a script which automates most of the steps we have discussed above.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+<span class="co">#       ____  __  ______________ </span>
+<span class="co">#      / __ \/ / / /  _/ ___/__ \</span>
+<span class="co">#     / / / / /_/ // / \__ \__/ /</span>
+<span class="co">#    / /_/ / __  // / ___/ / __/ </span>
+<span class="co">#   /_____/_/ /_/___//____/____/</span>
+<span class="co">#</span>
+<span class="co">#   Installation stackscript</span>
+<span class="co">#</span>
+<span class="co">#&lt;UDF name=&quot;myuser&quot; label=&quot;Username:&quot;&gt;</span>
+<span class="co">#&lt;UDF name=&quot;ssh&quot; label=&quot;SSH Public Key:&quot;&gt;</span>
+<span class="co">#&lt;UDF name=&quot;sshport&quot; label=&quot;SSH Port:&quot; default=&quot;22&quot;&gt;</span>
+<span class="co">#&lt;UDF name=&quot;hostname&quot; label=&quot;The hostname for the new Linode.&quot;&gt;</span>
+<span class="co">#&lt;UDF name=&quot;fqdn&quot; label=&quot;The new Linode&#39;s Fully Qualified Domain Name&quot;&gt;</span>
+
+<span class="co"># enable firewall</span>
+<span class="kw">ufw</span> enable
+
+<span class="kw">export</span> <span class="ot">DEBIAN_FRONTEND=</span>noninteractive
+<span class="co"># This updates the packages on the system from the distribution repositories.</span>
+<span class="kw">apt-get</span> update
+<span class="kw">apt-get</span> upgrade -y
+
+<span class="co"># This sets the variable $IPADDR to the IP address the new Linode receives.</span>
+<span class="ot">IPADDR=$(</span><span class="kw">/sbin/ifconfig</span> eth0 <span class="kw">|</span> <span class="kw">awk</span> <span class="st">&#39;/inet / { print $2 }&#39;</span> <span class="kw">|</span> <span class="kw">sed</span> <span class="st">&#39;s/addr://&#39;</span><span class="ot">)</span>
+
+<span class="co"># This section sets the hostname.</span>
+<span class="kw">echo</span> <span class="ot">$HOSTNAME</span> <span class="kw">&gt;</span> /etc/hostname
+<span class="kw">hostname</span> -F /etc/hostname
+
+<span class="co"># Create administrative user</span>
+<span class="kw">useradd</span> -m -G sudo -s /bin/bash <span class="ot">${MYUSER}</span>
+
+<span class="co"># Perform tasks for new user</span>
+<span class="co"># set a temporary password</span>
+<span class="kw">echo</span> <span class="kw">$(&lt;</span>/dev/urandom tr -dc A-Za-z0-9 | head -c 10<span class="kw">)</span> <span class="kw">&gt;</span> /home/<span class="ot">$MYUSER</span>/passwd.txt
+<span class="kw">chmod</span> 600 /home/<span class="ot">$MYUSER</span>/passwd.txt
+<span class="kw">echo</span> <span class="st">&quot;</span><span class="ot">${MYUSER}</span><span class="st">:</span><span class="ot">$(</span><span class="kw">cat</span> /home/<span class="ot">${MYUSER}</span>/passwd.txt<span class="ot">)</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="kw">chpasswd</span>
+
+<span class="co"># This sets your public key on your Linode</span>
+<span class="kw">mkdir</span> /home/<span class="ot">$MYUSER</span>/.ssh
+<span class="kw">echo</span> <span class="st">&quot;</span><span class="ot">${SSH}</span><span class="st">&quot;</span> <span class="kw">&gt;&gt;</span> /home/<span class="ot">$MYUSER</span>/.ssh/authorized_keys
+<span class="kw">chmod</span> 600 /home/<span class="ot">$MYUSER</span>/.ssh/authorized_keys
+
+<span class="co"># make sure user owns everything</span>
+<span class="kw">chown</span> -R <span class="ot">$MYUSER</span>.<span class="ot">$MYUSER</span> /home/<span class="ot">$MYUSER</span>
+
+<span class="co"># Tighten up ssh</span>
+<span class="co"># Disables password authentication</span>
+<span class="kw">sed</span> -i <span class="st">&#39;s/#*PasswordAuthentication [a-zA-Z]*/PasswordAuthentication no/&#39;</span> /etc/ssh/sshd_config
+<span class="co"># Disable root login</span>
+<span class="kw">sed</span> -i <span class="st">&#39;s/PermitRootLogin [a-zA-Z]*/PermitRootLogin no/&#39;</span> /etc/ssh/sshd_config
+<span class="co"># Change Port</span>
+<span class="kw">sed</span> -i <span class="st">&quot;s/Port [0-9]*/Port </span><span class="ot">$SSHPORT</span><span class="st">/&quot;</span> /etc/ssh/sshd_config
+<span class="co"># This restarts the SSH service</span>
+<span class="kw">service</span> ssh restart
+
+<span class="co"># Allow ssh through firewall</span>
+<span class="kw">ufw</span> limit <span class="ot">$SSHPORT</span>/tcp</code></pre></div>
+<h2 id="installing-dhis2-tools">Installing DHIS2 tools</h2>
+<p>Now that we have a reasonably secure system setup, we can continue to install the dhis2-tools. The dhis2-tools were created about 3 years ago, with the aim of providing a simple way to install and manage dhis2 instances on an ubuntu server. It is a proper ubuntu package which takes care of (i) dependencies and (ii) provides a set of scripts for creating and managing dhis2 instances.</p>
+<p>The source code for the package is maintained on <a href="https://github.com/dhis2/dhis2-tools">github</a>. You only need this if you are planning on modifying or contributing the package itself.</p>
+<p>The current packaged version is maintained by Bob Jolliffe and published on <a href="https://launchpad.net/~bobjolliffe/+archive/ubuntu/dhis2-tools">launchpad</a>. (TODO: this should be moved to dhis2-devs).</p>
+<p>Docmentation is maintained in the <a href="https://docs.dhis2.org/master/en/implementer/html/ch20.html">implementers guide</a>.</p>
+<p>(work through the documentation and discuss)</p>
+<h3 id="using-the-package-exercises">Using the package (exercises)</h3>
+<ol>
+<li>make your user a dhis2 administrator</li>
+<li>create an instance called hmis</li>
+<li>modify heap RAM allocation.</li>
+<li>modify nginx configuration so instance is served as default</li>
+<li>install the latest dhis2 war</li>
+<li>start, stop, monitor log</li>
+<li>restore the database from backup</li>
+</ol>
+<h3 id="discussion-of-improvements">Discussion of improvements</h3>
+<ol>
+<li>many installations have a separate database server</li>
+</ol>
+<h4 id="install-email-mta-postfix-or-exim4">Install email mta (postfix or exim4)</h4>
+<p>Instructions for installing exim4 as a send-only mail service are <a href="https://www.dhis2.org/setting-up-email-on-server">here</a>.</p>
+<p>Postfix is much more commonly used on linux than exim4. As an exercise we should go through the steps for installing postfix. It is very similar. The most important thing is that your FQDN has been properly setup.</p>
+</body>
+</html>
