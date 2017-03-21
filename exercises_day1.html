@@ -245,5 +245,44 @@ At this point, if you have an ssh client, you should be able to access your lino
 <h4 id="install-email-mta-postfix-or-exim4">Install email mta (postfix or exim4)</h4>
 <p>Instructions for installing exim4 as a send-only mail service are <a href="https://www.dhis2.org/setting-up-email-on-server">here</a>.</p>
 <p>Postfix is much more commonly used on linux than exim4. As an exercise we should go through the steps for installing postfix. It is very similar. The most important thing is that your FQDN has been properly setup.</p>
+<p>Note: there seems to be a permissions problem with default ubuntu 16.04 install. <code>syslog</code> is unable to write to <code>/var/log</code>.</p>
+<pre class="code"><code>bobj@instructor:~$ ls -l /var
+total 40
+drwxr-xr-x  2 root root   4096 Mar 20 20:23 backups
+drwxr-xr-x 11 root root   4096 Mar 20 14:56 cache
+drwxr-xr-x 43 root root   4096 Mar 20 14:48 lib
+drwxrwsr-x  2 root staff  4096 Apr 12  2016 local
+lrwxrwxrwx  1 root root      9 Jul 22  2016 lock -&gt; /run/lock
+drwxr-xr-x 11 root syslog 4096 Mar 20 14:48 log
+drwxrwsr-x  2 root mail   4096 Mar 20 14:36 mail
+drwxr-xr-x  2 root root   4096 Jul 22  2016 opt
+lrwxrwxrwx  1 root root      4 Jul 22  2016 run -&gt; /run
+drwxr-xr-x  5 root root   4096 Mar 20 14:24 spool
+drwxrwxrwt  3 root root   4096 Mar 21 03:11 tmp
+drwxr-xr-x  3 root root   4096 Mar 20 14:48 www
+bobj@instructor:~$ sudo chmod 0775 /var/log
+bobj@instructor:~$ ls -l /var
+total 40
+drwxr-xr-x  2 root root   4096 Mar 20 20:23 backups
+drwxr-xr-x 11 root root   4096 Mar 20 14:56 cache
+drwxr-xr-x 43 root root   4096 Mar 20 14:48 lib
+drwxrwsr-x  2 root staff  4096 Apr 12  2016 local
+lrwxrwxrwx  1 root root      9 Jul 22  2016 lock -&gt; /run/lock
+drwxrwxr-x 11 root syslog 4096 Mar 20 14:48 log
+drwxrwsr-x  2 root mail   4096 Mar 20 14:36 mail
+drwxr-xr-x  2 root root   4096 Jul 22  2016 opt
+lrwxrwxrwx  1 root root      4 Jul 22  2016 run -&gt; /run
+drwxr-xr-x  5 root root   4096 Mar 20 14:24 spool
+drwxrwxrwt  3 root root   4096 Mar 21 03:11 tmp
+drwxr-xr-x  3 root root   4096 Mar 20 14:48 www
+bobj@instructor:~$ </code></pre>
+<p>Now that logs exist we can see there is a complaint from google mail servers in the log file related to IPv6 configuration when we try and send mail:</p>
+<pre class="code"><code>Our system has detected that this 550-5.7.1 message does not meet IPv6 sending guidelines regarding PTR records 550-5.7.1 and authentication.</code></pre>
+<p>The simplest solution is to disable IPv6. So the following changes to /etc/postfix/main.cf:</p>
+<pre><code>#inet_interfaces = all
+#inet_protocols = all
+inet_interfaces = 127.0.0.1
+inet_protocols=ipv4</code></pre>
+<p>Then <code>sudo service postfix restart</code> and mail is up and running. Note above I also shifted the interface to be sure postfix won't accept outside mail.</p>
 </body>
 </html>
