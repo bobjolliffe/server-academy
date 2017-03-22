@@ -1,0 +1,16 @@
+127.0.0.1	localhost
+127.0.1.1	ubuntu.members.linode.com	ubuntu
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+139.162.247.110 instructor.dhis2.org instructor
+
+# academy hosts
+192.168.151.38 kigali1
+192.168.205.10 kigali2
+192.168.145.235 kigali3 
+192.168.187.175 kigali4 
+192.168.133.243 kigali5
+192.168.196.170 kigali6
