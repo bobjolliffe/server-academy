@@ -38,7 +38,7 @@ function perform_backups()
      fi
   done
   
-  rsync -avq $BACKUP_DIR/* $REMOTE
+  rsync -avq -e "ssh -p $SSH_PORT" $BACKUP_DIR/* $REMOTE
 }
 
 # MONTHLY BACKUPS

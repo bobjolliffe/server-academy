@@ -11,6 +11,7 @@ USER=$LOGNAME
 
 BACKUP_DIR=/home/dhix/backups/local
 REMOTE="backup.chimgh.org:backups/dhims2"
+SSH_PORT=822
 #DBNAME=$LOGNAME
 PLAIN_BACKUPS="dhims"
 ENCRYPTED_BACKUPS="tracker hiv cod"
