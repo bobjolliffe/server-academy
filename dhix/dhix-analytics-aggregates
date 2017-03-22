@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source /home/dhix/dhix-env
+
+curl -X POST -u $ANALYTICS_USER:$ANALYTICS_PASSWD "https://dhims.chimgh.org/dhims/api/resourceTables/analytics?skipEvent=true&lastYears=$ANALYTICS_EVENTS_YEARS"

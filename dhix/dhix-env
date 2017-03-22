@@ -1,0 +1,26 @@
+# Env variables for dhix cron jobs
+
+# ANALYTICS
+ANALYTICS_USER=dhix
+ANALYTICS_PASSWD='xxxxxxxxxxxxxx'
+ANALYTICS_EVENTS_YEARS=2
+ANALYTICS_AGGREGATE_YEARS=2
+
+# BACKUPS
+USER=$LOGNAME
+
+BACKUP_DIR=/home/dhix/backups/local
+REMOTE="backup.chimgh.org:backups/dhims2"
+#DBNAME=$LOGNAME
+PLAIN_BACKUPS="dhims"
+ENCRYPTED_BACKUPS="tracker hiv cod"
+PASSWORD_FILE="/home/dhix/passwd.pg"
+CIPHER="aes-256-cbc"
+
+# Keep Sunday's backup
+DAY_OF_WEEK_TO_KEEP=7
+WEEKS_TO_KEEP=3
+DAYS_TO_KEEP=7
+
+EXCLUDED="-T aggregated* -T analytics* -T completeness*"
+

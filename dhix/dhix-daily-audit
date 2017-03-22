@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ARGC=("$#")
+
+if [ $ARGC -ne 2 ]; then
+  echo "Usage: dhix-daily-audit <date> <instance name>"
+  exit -1
+fi
+
+DATE=$1
+INSTANCE=$2
+
+grep "* INFO  $DATE" /var/lib/dhis2/$INSTANCE/logs/catalina.out |grep -v ProgramStageInstance |grep -v 'read denied' |grep AuditLog

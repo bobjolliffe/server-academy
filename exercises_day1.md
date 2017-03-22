@@ -78,6 +78,8 @@ A more cautious approach you might use when the system is in production is to ju
 As an exercise, setup unattended upgrades for your linode now.
 
 ### SSH
+>Note: Document steps in detail
+
 #### Securing the ssh daemon (server)
 The primary way in which administrators interact with the backend system on a linux server is using ssh (secure shell).  A linux server usually has an ssh server program installed on it (sshd). 
 

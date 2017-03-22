@@ -25,11 +25,52 @@
 <nav id="TOC">
 <ul>
 <li><a href="#kigali-server-academy">Kigali server academy</a><ul>
-<li><a href="#exercises-day-2">Exercises Day 2</a></li>
+<li><a href="#exercises-day-2">Exercises Day 2</a><ul>
+<li><a href="#catching-up-from-day-1">Catching up from day 1:</a></li>
+<li><a href="#daily-dose-of-unix">Daily dose of unix</a></li>
+<li><a href="#ssh-tips-and-tricks">ssh tips and tricks</a></li>
+<li><a href="#network-basics">Network basics</a></li>
+<li><a href="#postgres-configuration">Postgres configuration</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
 <h1 id="kigali-server-academy">Kigali server academy</h1>
 <h2 id="exercises-day-2">Exercises Day 2</h2>
+<h3 id="catching-up-from-day-1">Catching up from day 1:</h3>
+<ol>
+<li>Complete postfix installation</li>
+<li>dhis2-tools overview and exercises from day1</li>
+</ol>
+<h3 id="daily-dose-of-unix">Daily dose of unix</h3>
+<p>(short presentation)</p>
+<p>Demo of rsync and tar commands</p>
+<h3 id="ssh-tips-and-tricks">ssh tips and tricks</h3>
+<ol>
+<li>Automatic remote login with keys.</li>
+<li>Execute remote commands through pipeline</li>
+<li>ssh tunnel. Examples:<br />
+3.1 ataching to remote postgres server with pgadmin<br />
+3.2 jmx performance monitoring</li>
+</ol>
+<p><strong>Exercise:</strong> Working with a neighbouring team, modify dhis2-tools backup script to push copy of backup files to remote backup server.</p>
+<h3 id="network-basics">Network basics</h3>
+<p>(short pres)</p>
+<h3 id="postgres-configuration">Postgres configuration</h3>
+<ol>
+<li>Review the settings in <a href="https://docs.dhis2.org/master/en/implementer/html/install_server_setup.html#install_setting_server_tz">manual</a>.<br />
+TIP: postgresql settings at the bottom of the file override what appears at the top. So make all your adjustments at the bottom, or <code>include</code> a custom settings file.</li>
+</ol>
+<p>Also review postgres <a href="https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server">wiki</a>.</p>
+<ol>
+<li><p>pgbench can give you a rough idea of a baseline performance to see if performance tweaks are making an impact. eg.</p>
+<pre><code>createdb test
+pgbench -i test
+pgbench -T 60 -c 30 test</code></pre>
+<p>Note that pgbench can be customised to simulate different types of loads and queries.</p></li>
+<li><p>Postgres backups<br />
+The problem with -O<br />
+Encrypting backup files (the example from ghana)</p></li>
+</ol>
 </body>
 </html>
