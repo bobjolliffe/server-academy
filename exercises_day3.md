@@ -77,3 +77,5 @@ Encrypting backup files (the example from ghana)
 Reference: https://www.postgresql.org/docs/9.5/static/high-availability.html
 
 **Exercise:**  Working with neighbouring team(s) work out a set of benchmarking guidelines for postgres tuning
+
+**Exercise:** Get letsencrypt working and document
