@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+
+<link rel="stylesheet" href="github-markdown.css">
+<style>
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 80%;
+        margin: 0 auto;
+        padding: 45px;
+    }
+</style>
+</head>
+<body class="markdown-body">>
+<nav id="TOC">
+<ul>
+<li><a href="#kigali-server-academy">Kigali server academy</a><ul>
+<li><a href="#exercises-day-2">Exercises Day 2</a><ul>
+<li><a href="#catching-up-from-day-3">Catching up from day 3:</a></li>
+<li><a href="#nginx-ssl">Nginx ssl</a></li>
+<li><a href="#postgres-configuration">Postgres configuration</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="kigali-server-academy">Kigali server academy</h1>
+<h2 id="exercises-day-2">Exercises Day 2</h2>
+<h3 id="catching-up-from-day-3">Catching up from day 3:</h3>
+<ol>
+<li>Complete postfix installation</li>
+<li>dhis2-tools overview and exercises from day1</li>
+</ol>
+<h3 id="nginx-ssl">Nginx ssl</h3>
+<p>To get an A+ ...</p>
+<p>Generate DH parameters as like this. It will take a long time to run.</p>
+<pre><code>cd /etc/ssl/certs
+openssl dhparam -out dhparam.pem 4096</code></pre>
+<p>Apply setting in nginx configuration file:</p>
+<pre><code>ssl_dhparam /etc/ssl/certs/dhparam.pem;</code></pre>
+<p>Apply other ssl parameters from dhis2-tools <a href="https://github.com/dhis2/dhis2-tools/blob/master/src/pkg/usr/share/dhis2-tools/samples/nginx/dhis2">sample</a>.</p>
+<pre><code># ssl stuff
+  ssl                  on;
+  ssl_certificate      /etc/ssl/certs/ssl-cert-snakeoil.pem;
+  ssl_certificate_key  /etc/ssl/private/ssl-cert-snakeoil.key;
+  ssl_session_timeout  30m;
+  ssl_protocols              TLSv1 TLSv1.1 TLSv1.2;
+  ssl_session_cache shared:SSL:10m;
+  ssl_prefer_server_ciphers  on;
+  
+  # This is quite strict.  If you have much older windoze browsers
+  # to support you might need the line below instead.
+  ssl_ciphers &#39;EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH&#39;;
+
+  # ssl_ciphers &quot;ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4&quot;;
+
+  # Enable HSTS
+  add_header Strict-Transport-Security max-age=63072000;
+
+  # Do not allow this site to be displayed in iframes
+  add_header X-Frame-Options DENY;
+
+  # Do not permit Content-Type sniffing.
+  add_header X-Content-Type-Options nosniff;
+
+  # You need to generate the dh parameters before using this setting
+  # Command:  openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+  # ssl_dhparam /etc/ssl/certs/dhparam.pem;</code></pre>
+<h3 id="postgres-configuration">Postgres configuration</h3>
+<ol>
+<li>Review the settings in <a href="https://docs.dhis2.org/master/en/implementer/html/install_server_setup.html#install_setting_server_tz">manual</a>.<br />
+TIP: postgresql settings at the bottom of the file override what appears at the top. So make all your adjustments at the bottom, or <code>include</code> a custom settings file.</li>
+</ol>
+<p>Also review postgres <a href="https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server">wiki</a>.</p>
+<ol>
+<li><p>pgbench can give you a rough idea of a baseline performance to see if performance tweaks are making an impact. eg.</p>
+<pre><code>createdb test
+pgbench -i test
+pgbench -T 60 -c 30 test</code></pre>
+<p>Note that pgbench can be customised to simulate different types of loads and queries.</p></li>
+<li><p>Postgres backups<br />
+The problem with -O<br />
+Encrypting backup files (the example from ghana)</p></li>
+</ol>
+<p><strong>Exercise:</strong> Working with a neighbouring team, use Ghana backup script to push copy of backup files to remote backup server.</p>
+<p><strong>Exercise:</strong> Working with neighbouring team(s), implement streaming replication according to <a href="https://docs.dhis2.org/2.26/en/implementer/html/install_read_replica_configuration.html">manual</a>.<br />
+Reference: <a href="https://www.postgresql.org/docs/9.5/static/high-availability.html" class="uri">https://www.postgresql.org/docs/9.5/static/high-availability.html</a></p>
+<p><strong>Exercise:</strong> Working with neighbouring team(s) work out a set of benchmarking guidelines for postgres tuning</p>
+</body>
+</html>
