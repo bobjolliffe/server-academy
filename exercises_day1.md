@@ -15,10 +15,10 @@ After installation is complete, you can boot the server and get access to its ru
 
 Lish is in some ways equivalent to sitting in front of a physical machine.  Later you will access the server via ssh, but having the ability to access directly via lish is an important fallback in case you are somehow locked out of access via ssh.
 
-> Note:  lish is a utility specific to linode.  Other hosting
+> Note:  lish is a utility specific to linode.  Other hosting 
 > providers will have different ways to accomplish the same thing.
 
-As a precaution while we are feeling our way around the system it is a good idea to prevent outside network access.  At least until we have secured things a bit better.  Newborn servers are often the most vulnerable as they have not yet been properly patched and configured. A common mistake is that when someone acquires a new machine they power it up, connected to the internet, and then leave it running with the intention of coming back to configure later.  If you are not going to deal with it immediately switch it off.  Hackers are constantly probing for running machines and will chance upon your surprisingly quickly.
+As a precaution while we are feeling our way around the system it is a good idea to prevent outside network access.  At least until we have secured things a bit better.  Newborn servers are often the most vulnerable as they have not yet been properly patched and configured. A common mistake is that when someone acquires a new machine they power it up, connected to the internet, and then leave it running with the intention of coming back to configure later.  If you are not going to deal with it immediately switch it off.  Hackers are constantly probing for running machines and will chance upon yours surprisingly quickly.
 
 A simple way to keep us a bit safer is to enable a simple firewall.  Ubuntu server comes by default with `ufw` (uncomplicated firewall).  We will be discussing firewalls in more detail later, but for now just type:
 
@@ -73,7 +73,7 @@ sudo apt-get dist-upgrade
 ```
 A more cautious approach you might use when the system is in production is to just use `apt-get upgrade`.
 
-> Discussion point: it is an open question whether to configure your system to automatically update itself as new versions of packages are released or to always do this manually.  A halfway position (which I recommend) is to ensure that all security related patches are applied automatically. The official ubuntu server docs explain how to set up unattended upgrades [here](https://help.ubuntu.com/lts/serverguide/automatic-updates.html).
+> Discussion point: it is an open question whether to configure your system to automatically update itself as new versions of packages are released or to always do this manually.  A halfway position (which we recommend for most setups) is to ensure that all security related patches are applied automatically. The official ubuntu server docs explain how to set up unattended upgrades [here](https://help.ubuntu.com/lts/serverguide/automatic-updates.html).
 
 As an exercise, setup unattended upgrades for your linode now.
 
