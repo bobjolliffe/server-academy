@@ -1,0 +1,81 @@
+    1  ls
+    2  ls -l
+    3  cat passwd.txt 
+    4  passwd
+    5  netstat -ntl
+    6  sudo netstat -ntlp
+    7  vi .bashrc
+    8  exit
+    9  sudo ufw status
+   10  sudo ufw allow 80
+   11  sudo ufw allow 443
+   12  sudo ufw status
+   13  certbot --cert-only
+   14  certbot -h
+   15  certbot certonly
+   16  sudo certbot certonly
+   17  ls /etc/letsencrypt/
+   18  ls /etc/letsencrypt/live/
+   19  sudo ls /etc/letsencrypt/live/
+   20  sudo ls /etc/letsencrypt/live/instructor.dhis2.org
+   21  sudo certbot renew
+   22  sudo crontab -e
+   23  sudo crontab -l
+   24  sudo crontab -e
+   25  sudo crontab -l
+   26  crontab -l
+   27  cat dhis2.conf 
+   28  cat dhis2.conf | sed 's/pluto/instructor'
+   29  cat dhis2.conf | sed 's/pluto/instructor/'
+   30  cat dhis2.conf | sed 's/pluto/instructor/' |more
+   31  cat dhis2.conf | sed 's/pluto/instructor/' |less
+   32  sed -i 's/pluto/instructor/' dhis2.conf
+   33  sudo cp dhis2.conf /etc/apache2/sites-available/
+   34  ls -l /etc/apache2/sites-available/
+   35  ls -l /etc/apache2/sites-enabled
+   36  sudo a2dissite 000-default.conf 
+   37  sudo a2ensite dhis2.conf 
+   38  sudo service apache2 reload
+   39  dhis2-create-admin bobj
+   40  dhis2-instance-create dhis
+   41  dhis2-deploy-war -l https://www.dhis2.org/download/releases/2.27/dhis.war dhis
+   42  dhis2-logtail dhis
+   43  history | less
+   44  createdb bob
+   45  dropdb bob
+   46  sudo cat /etc/sudoers.d/dhis2 
+   47  sudo apt-get install exim4-config 
+   48  sudo dpkg-reconfigure exim4-config 
+   49  mail bobjolliffe@gmail.com
+   50  sudo apt-get install mailutils
+   51  date
+   52  crontab -e
+   53  date
+   54  sudo vi /etc/aliases 
+   55  sudo newaliases
+   56  newaliases
+   57  sudo apt-get install exim4-daemon-light
+   58  mil
+   59  mail
+   60  sudo newaliases 
+   61  date
+   62  crontab -e
+   63  mail bobjolliffe@gmail.com
+   64  sudo less /var/log/exim4/mainlog
+   65  netstat -ntl
+   66  sudo vi /etc/exim4/update-exim4.conf.conf 
+   67  sudo service exim4 restart
+   68  netstat -ntl
+   69  sudo vi /etc/exim4/update-exim4.conf.conf 
+   70  ping accra1.dhis2.org
+   71  exit
+   72  sudo vi /etc/exim4/exim4.conf.template 
+   73  sudo update-exim4.conf
+   74  sudo service exim4 restart
+   75  history 
+   76  netstat -ntl
+   77  sudo less /var/log/exim4/mainlog
+   78  mail bobjolliffe@gmail.com
+   79  sudo less /var/log/exim4/mainlog
+   80  exit
+   81  history > history.txt
