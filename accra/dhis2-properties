@@ -1,0 +1,17 @@
+#!/bin/sh
+#       ____  __  ______________
+#      / __ \/ / / /  _/ ___/__ \
+#     / / / / /_/ // / \__ \__/ /
+#    / /_/ / __  // / ___/ / __/
+#   /_____/_/ /_/___//____/____/
+#
+#   DHIS2 instance startup script
+
+if [ "$#" -ne 1 ]; then
+  echo "usage: dhis2-properties <instance name>"
+  exit 1
+fi
+
+INSTANCE=$1
+
+unzip -q -p /var/lib/dhis2/$INSTANCE/webapps/$INSTANCE/WEB-INF/lib/dhis-service-core-2.*.jar build.properties

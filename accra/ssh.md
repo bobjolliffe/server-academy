@@ -65,5 +65,8 @@ Host instructor_pg
     LocalForward 9000 /var/run/postgresql/.s.PGSQL.5432
 ```
 
+# Automating remote tasks
+A common task is to move database backups to some offsite server.  If this is to be automated, yu need to hve a user which can login to the remote machine non-interactively.  Solution: use keys.
 
 
+We will do this tomorrow.
