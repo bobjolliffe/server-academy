@@ -3,6 +3,13 @@
 #Author	: Renier Rousseau ;Potlaki Moloi ;Bob Jolliffe
 #Created Date 	: 29 August 2017
 
+usage() {
+  echo "Usage: $PROG [options]"
+  echo " -n     Number of connections to the database - Mandatory"
+  echo " -m     Ammount of RAM on the system for postgres to use - in MB (Default all system RAM)"
+  echo " -o     Ammount of RAM required by the opertating system - in MB (Default 512)"
+}
+
 os_reserved=512
 total_allocatedK=$(head -n 1 /proc/meminfo |awk '{print $2}')
 sys_ram=$(expr $total_allocatedK / 1024)
@@ -33,12 +40,12 @@ done
 shift $(( $OPTIND-1 ))
 
 if [ $max_connections -eq -1 ]; then
-  echo "usage: psqltunning -n -m -o"
-  echo " -n : Number of connections to the database - Mandatory"
-  echo " -m : Ammount of RAM on the system for postgres to use - in MB - Default all system RAM"
-  echo " -o : Ammount of RAM required by the opertating system - in MB - Default 512"
+  usage
   exit -1
 fi
+
+
+
 
 #System Variables
 eth1Add=$(grep -E 'address 10.0.*' /etc/network/interfaces | awk '{print $2}')
