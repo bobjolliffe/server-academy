@@ -43,7 +43,6 @@ eth1Add=$(grep -E 'address 10.0.*' /etc/network/interfaces | awk '{print $2}')
 #User Definened Variables
 listing_address=$(echo "localhost, $eth1Add")
 port=$(echo '3447')
-max_connections=$(echo '900')
 wal_buf=$(echo '-1')
 wal_writer_delay=$(echo '10000')
 check_point_target=$(echo '0.8')
@@ -51,19 +50,14 @@ sync_commit=$(echo 'off')
 
 #Calculations for : 
 sys_ram_available=$(expr $sys_ram - $os_reserved)
-echo "RAM Availbe to the Postgres : $sys_ram_available MB"
 #Shared Buffers
 shared_buffers=$(echo $sys_ram_available | awk '{printf "%.0f\n", $1*0.4}')
-echo "Shared Buffer = $shared_buffers"
 #Work Memory
 work_mem=$(expr $sys_ram / 1024)
-echo "Work Memory = $work_mem"
 #Maintenance Work Memory
 main_work_mem=$(expr $sys_ram / 32)
-echo "Maintenance Work Memory = $main_work_mem"
 #Effective Cache Size
-effective_cahe=$(echo $sys_ram_avalable'MB')
-echo "Effective Cache Size = $effective_cahe"
+effective_cahe=$(echo $sys_ram_available'MB')
 
 #Effecting changes for : 
 # echo "" >> $hispconf
@@ -71,9 +65,9 @@ echo "Effective Cache Size = $effective_cahe"
 #Listening Address
 echo "listen_addresses = '$listing_address'" 
 #Port
-echo "port = $por"
+echo "port = $port"
 #Max Connections
-echo "max_connections = $max_conn" 
+echo "max_connections = $max_connections" 
 #Shared Buffer
 echo "shared_buffers = $shared_buffers"
 #Work Mem
