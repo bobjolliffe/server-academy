@@ -1,11 +1,11 @@
 #!/bin/bash
 #Postgres RAM Calculator
-#Author	: Renier Rousseau ;Potlaki Moloi
+#Author	: Renier Rousseau ;Potlaki Moloi ;Bob Jolliffe
 #Created Date 	: 29 August 2017
 
 os_reserved=512
 total_allocatedK=$(head -n 1 /proc/meminfo |awk '{print $2}')
-sys_ram=$(echo "$total_allocatedK/1024"|bc)
+sys_ram=$(expr $total_allocatedK / 1024)
 max_connections=-1
 
 while getopts ":m:n:o:" opt;
