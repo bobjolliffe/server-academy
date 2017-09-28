@@ -33,7 +33,10 @@ done
 shift $(( $OPTIND-1 ))
 
 if [ $max_connections -eq -1 ]; then
-  echo "usage: bla bla"
+  echo "usage: psqltunning -n -m -o"
+  echo " -n : Number of connections to the database - Mandatory"
+  echo " -m : Ammount of RAM on the system for postgres to use - in MB - Default all system RAM"
+  echo " -o : Ammount of RAM required by the opertating system - in MB - Default 512"
   exit -1
 fi
 
