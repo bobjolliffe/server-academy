@@ -1,21 +1,41 @@
 #!/bin/bash
 #Postgres RAM Calculator
 #Author	: Renier Rousseau ;Potlaki Moloi
-#Date 	: 29 August 2017
+#Created Date 	: 29 August 2017
 
-# Updated : 28 September 2017
-# Author  : Renier Rousseau
-#
+os_reserved=512
+total_allocatedK=$(head -n 1 /proc/meminfo |awk '{print $2}')
+sys_ram=$(echo "$total_allocatedK/1024"|bc)
+max_connections=-1
 
-#TODO - Error checking - user - writing ability
-#Creating backup
-cp /etc/postgresql/9.5/main/postgresql.conf /etc/postgresql/9.5/main/postgresql.conf.bak
-post_conf=/etc/postgresql/9.5/main/postgresql.conf
+while getopts ":m:n:o:" opt;
+do
+  case $opt in
+    m)
+      sys_ram=$OPTARG;
+      ;;    
+    n)
+      max_connections=$OPTARG;
+      ;;
+    o)
+      os_reserved=$OPTARG;
+      ;;
+    \?)
+      echo "Invalid option -$opt" >&2
+      exit 1;
+      ;;
+    :)
+      echo "Option -$opt requires an argument." >&2
+      exit 1
+  esac
+done
 
-#Creating hisp.conf and adding it too the postgresql.conf
-hispconf =/etc/postgresql/9.5/main/hisp.conf
-touch $hispconf
-echo 'include $hispconf' >> $post_conf
+shift $(( $OPTIND-1 ))
+
+if [ $max_connections -eq -1 ]; then
+  echo "usage: bla bla"
+  exit -1
+fi
 
 #System Variables
 eth1Add=$(grep -E 'address 10.0.*' /etc/network/interfaces | awk '{print $2}')
@@ -23,23 +43,17 @@ eth1Add=$(grep -E 'address 10.0.*' /etc/network/interfaces | awk '{print $2}')
 #User Definened Variables
 listing_address=$(echo "localhost, $eth1Add")
 port=$(echo '3447')
-max_conn=$(echo '900')
+max_connections=$(echo '900')
 wal_buf=$(echo '-1')
 wal_writer_delay=$(echo '10000')
 check_point_target=$(echo '0.8')
 sync_commit=$(echo 'off')
 
-
-#Calculating System Varribles
-free -m | grep Mem | awk '{ print $2}' > /tmp/.sys_ram.tmp
-sys_ram=$(head -n 1 '/tmp/.sys_ram.tmp')
-echo "The System has $sys_ram MB of RAM"
-
 #Calculations for : 
-sys_ram_avible=$(expr $sys_ram - 512)
-echo "RAM Availbe to the Postgres : $sys_ram_avible MB"
+sys_ram_available=$(expr $sys_ram - $os_reserved)
+echo "RAM Availbe to the Postgres : $sys_ram_available MB"
 #Shared Buffers
-shared_buffers=$(echo $sys_ram_avible | awk '{printf "%.0f\n", $1*0.4}')
+shared_buffers=$(echo $sys_ram_available | awk '{printf "%.0f\n", $1*0.4}')
 echo "Shared Buffer = $shared_buffers"
 #Work Memory
 work_mem=$(expr $sys_ram / 1024)
@@ -48,34 +62,34 @@ echo "Work Memory = $work_mem"
 main_work_mem=$(expr $sys_ram / 32)
 echo "Maintenance Work Memory = $main_work_mem"
 #Effective Cache Size
-effective_cahe=$(echo $sys_ram_avible'MB')
+effective_cahe=$(echo $sys_ram_avalable'MB')
 echo "Effective Cache Size = $effective_cahe"
 
 #Effecting changes for : 
 # echo "" >> $hispconf
 
 #Listening Address
-echo "listen_addresses = '$listing_address'" >> $hispconf
+echo "listen_addresses = '$listing_address'" 
 #Port
-echo "port = $por" >> $hispconf
+echo "port = $por"
 #Max Connections
-echo "max_connections = $max_conn" >> $hispconf
+echo "max_connections = $max_conn" 
 #Shared Buffer
-echo "shared_buffers = $shared_buffers" >> $hispconf
+echo "shared_buffers = $shared_buffers"
 #Work Mem
-echo "work_mem = $work_mem" >> $hispconf
+echo "work_mem = $work_mem"
 #Maintenance Work Mem
-echo "maintenance_work_mem = $main_work_mem" >> $hispconf
+echo "maintenance_work_mem = $main_work_mem"
 #Effective Cache Size
-echo "effective_cache_size = $effective_cahe" >> $hispconf
+echo "effective_cache_size = $effective_cahe"
 #Synchronous Commit
-echo "synchronous_commit = $sync_commit" >> $hispconf
+echo "synchronous_commit = $sync_commit"
 #WAL Buffers
-echo "wal_buffers = $wal_buf" >> $hispconf
+echo "wal_buffers = $wal_buf"
 #WAL Writer Delay
-echo "wal_writer_delay = $wal_writer_delay" >> $hispconf
+echo "wal_writer_delay = $wal_writer_delay"
 #Checkpoint Completion Target
-echo "checkpoint_completion_target = $check_point_target" >> $hispconf
+echo "checkpoint_completion_target = $check_point_target"
 
 
 # #Listening Address
