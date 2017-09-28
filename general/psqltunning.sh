@@ -92,25 +92,3 @@ echo "wal_writer_delay = $wal_writer_delay"
 echo "checkpoint_completion_target = $check_point_target"
 
 
-# #Listening Address
-# sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '$listing_address'/g" $post_conf
-# #Port
-# sed -i "s/port = 5432/port = $port/g" $post_conf
-# #Max Connections
-# sed -i "s/max_connections = 100/max_connections = $max_conn/g" $post_conf
-# #Shared Buffer
-# sed -i "s/shared_buffers = 128/shared_buffers = $shared_buffers/g" $post_conf
-# #Work Mem
-# sed -i "s/#work_mem = 4/work_mem = $work_mem/g" $post_conf
-# #Maintenance Work Mem
-# sed -i "s/#maintenance_work_mem = 64/maintenance_work_mem = $main_work_mem/g" $post_conf
-# #Effective Cache Size
-# sed -i "s/#effective_cache_size = 4GB/effective_cache_size = $effective_cahe/g" $post_conf
-# #Synchronous Commit
-# sed -i "s/#synchronous_commit = on/synchronous_commit = $sync_commit/g" $post_conf
-# #WAL Buffers
-# sed -i "s/#wal_buffers = -1/wal_buffers = $wal_buf/g" $post_conf
-# #WAL Writer Delay
-# sed -i "s/#wal_writer_delay = 200/wal_writer_delay = $wal_writer_delay/g" $post_conf
-# #Checkpoint Completion Target
-# sed -i "s/#checkpoint_completion_target = 0.5/checkpoint_completion_target = $check_point_target/g" $post_conf
