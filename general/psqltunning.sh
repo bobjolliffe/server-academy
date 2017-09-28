@@ -53,7 +53,7 @@ sys_ram_available=$(expr $sys_ram - $os_reserved)
 #Shared Buffers
 shared_buffers=$(echo $sys_ram_available | awk '{printf "%.0f\n", $1*0.4}')
 #Work Memory
-work_mem=$(expr $sys_ram / 1024)
+work_mem=$(expr $shared_buffers / $max_connections)
 #Maintenance Work Memory
 main_work_mem=$(expr $sys_ram / 32)
 #Effective Cache Size
@@ -84,5 +84,3 @@ echo "wal_buffers = $wal_buf"
 echo "wal_writer_delay = $wal_writer_delay"
 #Checkpoint Completion Target
 echo "checkpoint_completion_target = $check_point_target"
-
-
