@@ -48,6 +48,9 @@ The first line creates the user.  It is an interactive process. Generally it is 
 Logout of the system (`exit`) and log back in as your new user.
 
 ####  Update the system with latest package upgrades
+
+echo "precedence ::ffff:0:0/96  100" >> /etc/gai.conf
+
 It is important that the operating system is kept up to date with the latest packages.  Particularly when there are security related packages.
 
 This is a two step process.  The first is to download the latest list of packages:
