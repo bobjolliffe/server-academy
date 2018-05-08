@@ -64,13 +64,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#kerala-server-academy">Kerala server academy</a><ul>
 <li><a href="#exercises-day-1">Exercises Day 1</a><ul>
 <li><a href="#operating-system">Operating System</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#prefer-ipv4-addresses---this-solves-long-delays-with-apt-get">prefer ipv4 addresses - this solves long delays with apt-get</a><ul>
 <li><a href="#ssh">SSH</a></li>
-</ul></li>
 <li><a href="#automating-the-installation">Automating the installation</a></li>
-<li><a href="#installing-dhis2-tools">Installing DHIS2 tools</a><ul>
-<li><a href="#using-the-package-exercises">Using the package (exercises)</a></li>
-<li><a href="#discussion-of-improvements">Discussion of improvements</a></li>
-</ul></li>
 </ul></li>
 </ul>
 </nav>
@@ -107,6 +105,8 @@ providers will have different ways to accomplish the same thing.</p>
 <p><code>usermod</code> is used to <strong>modify</strong> the user. The specific modification that is being done here is that the user <code>bobj</code> is being added to a group of users called <code>sudo</code> (more on users and groups later). Users in the <code>sudo</code> group have the permission to execute commands as the <code>root</code> user. So there is no more reason to be able login as <code>root</code>.</p>
 <p>Logout of the system (<code>exit</code>) and log back in as your new user.</p>
 <h4 id="update-the-system-with-latest-package-upgrades">Update the system with latest package upgrades</h4>
+<h1 id="prefer-ipv4-addresses---this-solves-long-delays-with-apt-get">prefer ipv4 addresses - this solves long delays with apt-get</h1>
+<p>echo &quot;precedence ::ffff:0:0/96 100&quot; &gt;&gt; /etc/gai.conf</p>
 <p>It is important that the operating system is kept up to date with the latest packages. Particularly when there are security related packages.</p>
 <p>This is a two step process. The first is to download the latest list of packages:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">apt-get</span> update</code></pre></div>
@@ -167,10 +167,10 @@ At this point, if you have an ssh client, you should be able to access your lino
 <p>Linode provides a mechanism for organising and parameterizing these scripts, called <strong>StackScripts</strong>.</p>
 <p>Below is a simple example of a script which automates most of the steps we have discussed above.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
-<span class="co">#       ____  __  ______________ </span>
+<span class="co">#       ____  __  ______________</span>
 <span class="co">#      / __ \/ / / /  _/ ___/__ \</span>
 <span class="co">#     / / / / /_/ // / \__ \__/ /</span>
-<span class="co">#    / /_/ / __  // / ___/ / __/ </span>
+<span class="co">#    / /_/ / __  // / ___/ / __/</span>
 <span class="co">#   /_____/_/ /_/___//____/____/</span>
 <span class="co">#</span>
 <span class="co">#   Installation stackscript</span>
@@ -225,67 +225,5 @@ At this point, if you have an ssh client, you should be able to access your lino
 
 <span class="co"># Allow ssh through firewall</span>
 <span class="kw">ufw</span> limit <span class="ot">$SSHPORT</span>/tcp</code></pre></div>
-<h2 id="installing-dhis2-tools">Installing DHIS2 tools</h2>
-<p>Now that we have a reasonably secure system setup, we can continue to install the dhis2-tools. The dhis2-tools were created about 3 years ago, with the aim of providing a simple way to install and manage dhis2 instances on an ubuntu server. It is a proper ubuntu package which takes care of (i) dependencies and (ii) provides a set of scripts for creating and managing dhis2 instances.</p>
-<p>The source code for the package is maintained on <a href="https://github.com/dhis2/dhis2-tools">github</a>. You only need this if you are planning on modifying or contributing the package itself.</p>
-<p>The current packaged version is maintained by Bob Jolliffe and published on <a href="https://launchpad.net/~bobjolliffe/+archive/ubuntu/dhis2-tools">launchpad</a>. (TODO: this should be moved to dhis2-devs).</p>
-<p>Docmentation is maintained in the <a href="https://docs.dhis2.org/master/en/implementer/html/ch20.html">implementers guide</a>.</p>
-<p>(work through the documentation and discuss)</p>
-<h3 id="using-the-package-exercises">Using the package (exercises)</h3>
-<ol>
-<li>make your user a dhis2 administrator</li>
-<li>create an instance called hmis</li>
-<li>modify heap RAM allocation.</li>
-<li>modify nginx configuration so instance is served as default</li>
-<li>install the latest dhis2 war</li>
-<li>start, stop, monitor log</li>
-<li>restore the database from backup</li>
-</ol>
-<h3 id="discussion-of-improvements">Discussion of improvements</h3>
-<ol>
-<li>many installations have a separate database server</li>
-</ol>
-<h4 id="install-email-mta-postfix-or-exim4">Install email mta (postfix or exim4)</h4>
-<p>Instructions for installing exim4 as a send-only mail service are <a href="https://www.dhis2.org/setting-up-email-on-server">here</a>.</p>
-<p>Postfix is much more commonly used on linux than exim4. As an exercise we should go through the steps for installing postfix. It is very similar. The most important thing is that your FQDN has been properly setup.</p>
-<p>Note: there seems to be a permissions problem with default ubuntu 16.04 install. <code>syslog</code> is unable to write to <code>/var/log</code>.</p>
-<pre class="code"><code>bobj@instructor:~$ ls -l /var
-total 40
-drwxr-xr-x  2 root root   4096 Mar 20 20:23 backups
-drwxr-xr-x 11 root root   4096 Mar 20 14:56 cache
-drwxr-xr-x 43 root root   4096 Mar 20 14:48 lib
-drwxrwsr-x  2 root staff  4096 Apr 12  2016 local
-lrwxrwxrwx  1 root root      9 Jul 22  2016 lock -&gt; /run/lock
-drwxr-xr-x 11 root syslog 4096 Mar 20 14:48 log
-drwxrwsr-x  2 root mail   4096 Mar 20 14:36 mail
-drwxr-xr-x  2 root root   4096 Jul 22  2016 opt
-lrwxrwxrwx  1 root root      4 Jul 22  2016 run -&gt; /run
-drwxr-xr-x  5 root root   4096 Mar 20 14:24 spool
-drwxrwxrwt  3 root root   4096 Mar 21 03:11 tmp
-drwxr-xr-x  3 root root   4096 Mar 20 14:48 www
-bobj@instructor:~$ sudo chmod 0775 /var/log
-bobj@instructor:~$ ls -l /var
-total 40
-drwxr-xr-x  2 root root   4096 Mar 20 20:23 backups
-drwxr-xr-x 11 root root   4096 Mar 20 14:56 cache
-drwxr-xr-x 43 root root   4096 Mar 20 14:48 lib
-drwxrwsr-x  2 root staff  4096 Apr 12  2016 local
-lrwxrwxrwx  1 root root      9 Jul 22  2016 lock -&gt; /run/lock
-drwxrwxr-x 11 root syslog 4096 Mar 20 14:48 log
-drwxrwsr-x  2 root mail   4096 Mar 20 14:36 mail
-drwxr-xr-x  2 root root   4096 Jul 22  2016 opt
-lrwxrwxrwx  1 root root      4 Jul 22  2016 run -&gt; /run
-drwxr-xr-x  5 root root   4096 Mar 20 14:24 spool
-drwxrwxrwt  3 root root   4096 Mar 21 03:11 tmp
-drwxr-xr-x  3 root root   4096 Mar 20 14:48 www
-bobj@instructor:~$ </code></pre>
-<p>Now that logs exist we can see there is a complaint from google mail servers in the log file related to IPv6 configuration when we try and send mail:</p>
-<pre class="code"><code>Our system has detected that this 550-5.7.1 message does not meet IPv6 sending guidelines regarding PTR records 550-5.7.1 and authentication.</code></pre>
-<p>The simplest solution is to disable IPv6. So the following changes to /etc/postfix/main.cf:</p>
-<pre><code>#inet_interfaces = all
-#inet_protocols = all
-inet_interfaces = 127.0.0.1
-inet_protocols=ipv4</code></pre>
-<p>Then <code>sudo service postfix restart</code> and mail is up and running. Note above I also shifted the interface to be sure postfix won't accept outside mail.</p>
 </body>
 </html>
