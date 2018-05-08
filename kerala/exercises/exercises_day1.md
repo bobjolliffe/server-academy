@@ -15,7 +15,7 @@ After installation is complete, you can boot the server and get access to its ru
 
 Lish is in some ways equivalent to sitting in front of a physical machine.  Later you will access the server via ssh, but having the ability to access directly via lish is an important fallback in case you are somehow locked out of access via ssh.
 
-> Note:  lish is a utility specific to linode.  Other hosting 
+> Note:  lish is a utility specific to linode.  Other hosting
 > providers will have different ways to accomplish the same thing.
 
 As a precaution while we are feeling our way around the system it is a good idea to prevent outside network access.  At least until we have secured things a bit better.  Newborn servers are often the most vulnerable as they have not yet been properly patched and configured. A common mistake is that when someone acquires a new machine they power it up, connected to the internet, and then leave it running with the intention of coming back to configure later.  If you are not going to deal with it immediately switch it off.  Hackers are constantly probing for running machines and will chance upon yours surprisingly quickly.
@@ -25,14 +25,14 @@ A simple way to keep us a bit safer is to enable a simple host based firewall.  
 ```bash
 ufw enable
 ```
-Without any other firewall rules applied, this will simply block **all** network traffic to the server which is a good safety precaution. 
+Without any other firewall rules applied, this will simply block **all** network traffic to the server which is a good safety precaution.
 
 So for the moment `lish` is the only way in.
 
 ####  Configure a user to administer the system
 
 When the system is initially installed it has a `root` user by default.  The convention on ubuntu systems is never to login as root, but rather configure a human user and grant that person privileges to perform operations as root.  There (at least) two good reasons for this:
-1.  It makes it slightly harder to make a silly mistake 
+1.  It makes it slightly harder to make a silly mistake
 2.  It provides a proper audit trail of who has logged in and when
 (for this reason it is preferable that the user account is linked to a human being rather than something generic like `dhis`).
 
@@ -68,7 +68,7 @@ You can get a full description of what `update` does by looking at the manual pa
 man apt-get
 ```
 
-> A common mistake with beginners, once they have discovered that `sudo`  allows them to do useful things is that they start to use `sudo` for **everything**.  Try and resist this temptation and only use sudo when you need to.  This can help you avoid many difficulties,  mistakes and disasters.. Note we didn't need to `sudo` in order to read the manual. 
+> A common mistake with beginners, once they have discovered that `sudo`  allows them to do useful things is that they start to use `sudo` for **everything**.  Try and resist this temptation and only use sudo when you need to.  This can help you avoid many difficulties,  mistakes and disasters.. Note we didn't need to `sudo` in order to read the manual.
 
 Now that you have your updated list of packages installed, you can upgrade your base system with the latest software.  You will have seen from the manual page that there are different types of upgrade that can be done.  In this case, because the server is new, we will use the most aggressive:
 ```bash
@@ -84,7 +84,7 @@ As an exercise, setup unattended upgrades for your linode now.
 >Note: Document steps in detail
 
 #### Securing the ssh daemon (server)
-The primary way in which administrators interact with the backend system on a linux server is using ssh (secure shell).  A linux server usually has an ssh server program installed on it (sshd). 
+The primary way in which administrators interact with the backend system on a linux server is using ssh (secure shell).  A linux server usually has an ssh server program installed on it (sshd).
 
 Linux (and other unix derivatives) make use of openssh, which is usually included as part of the base install.  Openssh is the most widely used implementation of openssh which means it is generally quite secure.  When vulnerabilities are discovered they are typically patched quickly.
 
@@ -133,10 +133,10 @@ Linode provides a mechanism for organising and parameterizing these scripts, cal
 Below is a simple example of a script which automates most of the steps we have discussed above.
 ```bash
 #!/bin/bash
-#       ____  __  ______________ 
+#       ____  __  ______________
 #      / __ \/ / / /  _/ ___/__ \
 #     / / / / /_/ // / \__ \__/ /
-#    / /_/ / __  // / ___/ / __/ 
+#    / /_/ / __  // / ___/ / __/
 #   /_____/_/ /_/___//____/____/
 #
 #   Installation stackscript
@@ -192,77 +192,3 @@ service ssh restart
 # Allow ssh through firewall
 ufw limit $SSHPORT/tcp
 ```
-## Installing DHIS2 tools
-Now that we have a reasonably secure system setup, we can continue to install the dhis2-tools.  The dhis2-tools were created about 3 years ago, with the aim of providing a simple way to install and manage dhis2 instances on an ubuntu server.  It is a proper ubuntu package which takes care of (i) dependencies and (ii) provides a set of scripts for creating and managing dhis2 instances.
-
-The source code for the package is maintained on [github](https://github.com/dhis2/dhis2-tools).  You only need this if you are planning on modifying or contributing the package itself.
-
-The current packaged version is maintained by Bob Jolliffe and published on [launchpad](https://launchpad.net/~bobjolliffe/+archive/ubuntu/dhis2-tools).  (TODO: this should be moved to dhis2-devs).
-
-Docmentation is maintained in the [implementers guide](https://docs.dhis2.org/master/en/implementer/html/ch20.html).
-
-(work through the documentation and discuss)
-
-### Using the package (exercises)
-1.  make your user a dhis2 administrator
-2.  create an instance called hmis
-3.  modify heap RAM allocation.
-3.  modify nginx configuration so instance is served as default
-4.  install the latest dhis2 war
-5.  start, stop, monitor log
-6.  restore the database from backup
-
-### Discussion of improvements
-1.  many installations have a separate database server
-
-####  Install email mta (postfix or exim4)
-
-Instructions for installing exim4 as a send-only mail service are [here](https://www.dhis2.org/setting-up-email-on-server).
-
-Postfix is much more commonly used on linux than exim4.  As an exercise we should go through the steps for installing postfix.  It is very similar.  The most important thing is that your FQDN has been properly setup.
-
-Note: there seems to be a permissions problem with default ubuntu 16.04 install.  `syslog` is unable to write to `/var/log`.
-```code
-bobj@instructor:~$ ls -l /var
-total 40
-drwxr-xr-x  2 root root   4096 Mar 20 20:23 backups
-drwxr-xr-x 11 root root   4096 Mar 20 14:56 cache
-drwxr-xr-x 43 root root   4096 Mar 20 14:48 lib
-drwxrwsr-x  2 root staff  4096 Apr 12  2016 local
-lrwxrwxrwx  1 root root      9 Jul 22  2016 lock -> /run/lock
-drwxr-xr-x 11 root syslog 4096 Mar 20 14:48 log
-drwxrwsr-x  2 root mail   4096 Mar 20 14:36 mail
-drwxr-xr-x  2 root root   4096 Jul 22  2016 opt
-lrwxrwxrwx  1 root root      4 Jul 22  2016 run -> /run
-drwxr-xr-x  5 root root   4096 Mar 20 14:24 spool
-drwxrwxrwt  3 root root   4096 Mar 21 03:11 tmp
-drwxr-xr-x  3 root root   4096 Mar 20 14:48 www
-bobj@instructor:~$ sudo chmod 0775 /var/log
-bobj@instructor:~$ ls -l /var
-total 40
-drwxr-xr-x  2 root root   4096 Mar 20 20:23 backups
-drwxr-xr-x 11 root root   4096 Mar 20 14:56 cache
-drwxr-xr-x 43 root root   4096 Mar 20 14:48 lib
-drwxrwsr-x  2 root staff  4096 Apr 12  2016 local
-lrwxrwxrwx  1 root root      9 Jul 22  2016 lock -> /run/lock
-drwxrwxr-x 11 root syslog 4096 Mar 20 14:48 log
-drwxrwsr-x  2 root mail   4096 Mar 20 14:36 mail
-drwxr-xr-x  2 root root   4096 Jul 22  2016 opt
-lrwxrwxrwx  1 root root      4 Jul 22  2016 run -> /run
-drwxr-xr-x  5 root root   4096 Mar 20 14:24 spool
-drwxrwxrwt  3 root root   4096 Mar 21 03:11 tmp
-drwxr-xr-x  3 root root   4096 Mar 20 14:48 www
-bobj@instructor:~$ 
-```
-Now that logs exist we can see there is a complaint from google mail servers in the log file related to IPv6 configuration when we try and send mail:
-```code
-Our system has detected that this 550-5.7.1 message does not meet IPv6 sending guidelines regarding PTR records 550-5.7.1 and authentication.
-```
-The simplest solution is to disable IPv6.  So the following changes to /etc/postfix/main.cf:
-```
-#inet_interfaces = all
-#inet_protocols = all
-inet_interfaces = 127.0.0.1
-inet_protocols=ipv4
-```
-Then `sudo service postfix restart` and mail is up and running.  Note above I also shifted the interface to be sure postfix won't accept outside mail.
