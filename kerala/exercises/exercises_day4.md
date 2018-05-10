@@ -6,6 +6,7 @@
 3.  Upgrading dhis2 war file
 4.  Backups
 5.  Encrypted at rest data (tomorrow)
+6.  Automating certbot renewal
 
 ## Server Academy Projects
 
