@@ -18,17 +18,17 @@ access controls need to be adjusted.  Good practice here is always to allow
 only the minimum access to get the job done.
 
 Settings in the pg_hba.conf file are described in the postgresql online documentation
-[https://www.postgresql.org/docs/9.6/static/auth-pg-hba-conf.html](here).
+[here](https://www.postgresql.org/docs/9.6/static/auth-pg-hba-conf.html).
 
 Work through an exercise where one linode allows dhis2 database access from another linode.
 
 ### postgresql.conf Tuning
-This section requires we download the demo database from [https://s3-eu-west-1.amazonaws.com/databases.dhis2.org/sierra-leone/2.28/dhis2-db-sierra-leone.sql.gz](here).
+This section requires we download the demo database from [here](https://s3-eu-west-1.amazonaws.com/databases.dhis2.org/sierra-leone/2.28/dhis2-db-sierra-leone.sql.gz).
 
 Relevant documentation:
-[https://docs.dhis2.org/2.29/en/implementer/html/install_server_setup.html#install_postgresql_performance_tuning](DHIS2 documentation)
+[DHIS2 documentation](https://docs.dhis2.org/2.29/en/implementer/html/install_server_setup.html#install_postgresql_performance_tuning)
 
-[https://www.postgresql.org/docs/9.5/static/config-setting.html](Postgresql documentation)
+[Postgresql documentation](https://www.postgresql.org/docs/9.5/static/config-setting.html)
 
 Discuss tuning options.
 
