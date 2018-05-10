@@ -64,7 +64,8 @@ See [DHIS2 docs](https://docs.dhis2.org/2.29/en/implementer/html/install_read_re
 [Postgresql docs]().
 
 ### backup history
-made dhix user
+```
+   made dhix user
    90  sudo adduser --disabled-password --disabled-login dhix
    91  sudo su dhix
    92  createuser -s dhix
@@ -86,5 +87,5 @@ dhix history
 crontab -e
 # m h  dom mon dow   command
 46 09 * * * /home/dhix/dhix-backup
-
+```
 
