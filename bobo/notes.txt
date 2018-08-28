@@ -1,0 +1,41 @@
+http://materiallysocial.blogspot.com/
+
+postgres:
+https://redbyte.eu/en/blog/postgresql-benchmark-freebsd-centos-ubuntu-debian-opensuse/
+
+Things to look into:
+ipv6 and email
+
+Logging:
+https://docs.dhis2.org/master/en/implementer/html/install_application_logging.html
+https://www.loggly.com/ultimate-guide/centralizing-java-logs/
+rsyslog tomcat
+
+================================================================================
+docker
+https://docs.docker.com/install/linux/docker-ce/ubuntu/#upgrade-docker-ce-1
+## List Docker CLI commands
+docker
+docker container --help
+
+## Display Docker version and info
+docker --version
+docker version
+docker info
+
+## Execute Docker image
+docker run hello-world
+
+## List Docker images
+docker image ls
+
+## List Docker containers (running, all, all in quiet mode)
+docker container ls
+docker container ls --all
+docker container ls -aq
+=================================================================================
+
+
+munin
+redis
+kafka
