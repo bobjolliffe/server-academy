@@ -1,0 +1,134 @@
+    1  sudo adduser fred
+    2  cat passwd.txt 
+    3  passwd
+    4  sudo adduser freddie
+    5  exit
+    6  sudo su freddie 
+    7  exit
+    8  ls ..
+    9  sudo adduser zeferino
+   10  sudo usermod -aG sudo zeferino 
+   11  nano password.txt
+   12  rm password.txt 
+   13  sudo su zeferino 
+   14  exit
+   15  ssh -p 2292 venus.dhis2.org
+   16  scp -P 2292 venus.dhis2.org:dhis_20180828.sql.gz .
+   17  exit
+   18  created test
+   19  createdb test
+   20  dropdb test
+   21  ls /var/lib/dhis2
+   22  dhis2-instance-create dhis
+   23  psql postgres
+   24  ls /var/lib/dhis2/
+   25  ls /var/lib/dhis2/dhis
+   26  vi /var/lib/dhis2/dhis/bin/setenv.sh 
+   27  vi /var/lib/dhis2/dhis/conf/server.xml 
+   28  vi /var/lib/dhis2/dhis/dhis.conf 
+   29  sudo vi /var/lib/dhis2/dhis/dhis.conf 
+   30  ls -l /var/lib/dhis2/dhis/dhis.conf 
+   31  dhis2-deploy-war -l https://s3-eu-west-1.amazonaws.com/releases.dhis2.org/2.29/dhis.war dhis
+   32  ls -l /var/lib/dhis2/dhis/
+   33  ls -l /var/lib/dhis2/dhis/webapps/
+   34  ls -l /var/lib/dhis2/
+   35  dhis2-instance-create -p 8081 training
+   36  ls -l /var/lib/dhis2/
+   37  ls -l /var/lib/dhis2/dhis/webapps/
+   38  ls -l /var/lib/dhis2/training/webapps/
+   39  dhis2-deploy-war -f /var/lib/dhis2/dhis/webapps/dhis.war training
+   40  sudo netstat -ntlp
+   41  dhis2-shutdown training
+   42  sudo netstat -ntlp
+   43  dhis2-startup training
+   44  dhis2-shutdown training
+   45  sudo netstat -ntlp
+   46  dhis2-logview dhis
+   47  vi /var/lib/dhis2/dhis/bin/setenv.sh 
+   48  ls -l /var/lib/dhis2/training/
+   49  ls -l /var/lib/dhis2/dhis
+   50  sudo netstat -ntlp
+   51  man certbot
+   52  sudo ufw status
+   53  sudo ufw allow 80/tcp
+   54  sudo ufw allow 443/tcp
+   55  sudo ufw status
+   56  sudo service apache2 stop
+   57  sudo certbot certonly -d bobo.dhis2.org
+   58  sudo ls /etc/letsencrypt/live/
+   59  sudo ls /etc/letsencrypt/live/bobo.dhis2.org
+   60  sudo certbot renew
+   61  sudo certbot renew --pre-hook 'service apache2 stop' --post-hook 'service apache2 start'
+   62  sudo cp /usr/share/dhis2-tools/samples/apache2/dhis.conf /etc/apache2/sites-available/
+   63  history 
+   64  vi /etc/apache2/sites-available/dhis.conf 
+   65  sudo sed  's/instructor/bobo/'  /etc/apache2/sites-available/dhis.conf |less
+   66  sudo sed  -i 's/instructor/bobo/'  /etc/apache2/sites-available/dhis.conf 
+   67  ls /etc/apache2/sites-enabled/
+   68  sudo a2dissite 000-default.conf 
+   69  sudo a2ensite dhis.conf 
+   70  systemctl restart apache2
+   71  sudo systemctl restart apache2
+   72  netstat -ntl
+   73  history 
+   74  history >history.txt
+   75  exit
+   76  vi history.txt 
+   77  ls /usr/bin/dhis2-*
+   78  vi /usr/bin/dhis2-startup 
+   79  vi /usr/bin/dhis2-instance-create 
+   80  ifconfig 
+   81  vi /etc/apache2/sites-enabled/dhis.conf 
+   82  sudo vi /etc/apache2/sites-enabled/dhis.conf 
+   83  sudo service apache2 reload
+   84  sudo vi /etc/apache2/sites-enabled/dhis.conf 
+   85  sudo apt update; sudo apt upgrade;
+   86  sudo ufw status
+   87  ls -l /var/lib/dhis2/dhis/webapps/
+   88  ssh -p 822 www.chimgh.org
+   89  ssh www.chimgh.org
+   90  ls
+   91  exit
+   92  sudo reboot
+   93  vi /etc/postgresql/10/main/pg_hba.conf 
+   94  sudo vi /etc/postgresql/10/main/pg_hba.conf 
+   95  sudo su postgres
+   96  sudo vi /etc/postgresql/10/main/pg_hba.conf 
+   97  psql dhis
+   98  sudo less /var/lib/dhis2/dhis/dhis.conf 
+   99  sudo vi /etc/postgresql/10/main/pg_hba.conf 
+  100  sudo vi /etc/postgresql/10/main/postgresql.conf 
+  101  sudo ufw allow 5432
+  102  sudo service postgresql restart
+  103  sudo vi /etc/postgresql/10/main/postgresql.conf 
+  104  netstat -ntl
+  105  sudo ufw allow 5432
+  106  netstat -ntl
+  107  sudo ufw allow status
+  108  sudo ufw  status
+  109  sudo service postgresql stop
+  110  sudo service postgresql start
+  111  netstat -ntl
+  112  sudo service postgresql start
+  113  netstat -ntl
+  114  sudo vi /var/log/postgresql/postgresql-10-main.log 
+  115  sudo vi /etc/postgresql/10/main/postgresql.conf 
+  116  sudo vi /etc/postgresql/10/main/pg_hba.conf 
+  117  sudo service postgresql restart
+  118  netstat -ntl
+  119  sudo ufw status numbered
+  120  sudo ufw delete 4
+  121  sudo ufw status numbered
+  122  sudo ufw delete 7
+  123  sudo ufw status numbered
+  124  sudo vi /etc/postgresql/10/main/postgresql.conf 
+  125  sudo cp custom.conf /etc/postgresql/10/main/
+  126  cd /etc/postgresql/10/main/
+  127  ls
+  128  vi custom.conf 
+  129  sudo vi /etc/postgresql/10/main/postgresql.conf 
+  130  vi custom.conf 
+  131  sudo vi custom.conf 
+  132  history 
+  133  cd
+  134  history > history2.txt
