@@ -1,0 +1,6 @@
+1.  Generate a public/private key pair using your ssh client (putty, openssh, ...)
+
+2.  Install your linode using your public key
+
+3.  Set up your partners public key on the server so that he/she can login.
+
