@@ -1,0 +1,34 @@
+1.  ubuntu unattended upgrades
+https://help.ubuntu.com/lts/serverguide/automatic-updates.html.en
+
+2.  database backup and restore
+
+automated backup dhix
+
+3. database configuration
+3.1 Access control:
+# OK
+host all all 192.168.1.0/24  md5
+# Better
+host dhis dhis 192.168.1.45/32  md5
+# Best
+hostssl dhis dhis 192.168.1.25/32 md5
+
+# Dont do this!
+host all all 0.0.0.0/0 trust
+
+3.2 tuning
+- download and restore sample db for dhis 2.29
+
+wget https://s3-eu-west-1.amazonaws.com/databases.dhis2.org/sierra-leone/2.29/dhis2-db-sierra-leone.sql.gz
+dhis2-restoredb dhis dhis2-db-sierra-leone.sql.gz
+
+- measure how long it took to  restore
+- run analytics
+- record how long
+- tune your db better
+- measure and try again
+
+database partition change
+
+dhis2 upgrades
