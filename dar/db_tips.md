@@ -18,6 +18,18 @@ Two things to be cautious about are:
 grep duration postgres.log | less
 ```
 
+Sort them by the longest one first:
+
+```
+grep duration /var/log/postgresql/postgresql-11-main.log | sort -n -k 8 -r |less
+```
+
+Just get yesterdays queries::
+
+```
+grep duration /var/log/postgresql/postgresql-11-main.log | grep -v 'create index' |grep '^2019-05-01'
+```
+
 2.  Checking for deadlocks
 ```
 grep deadlock postgres.log | less
